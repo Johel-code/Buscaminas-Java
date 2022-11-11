@@ -8,14 +8,13 @@ public class Tablero
     private int numMinas;
     private Scanner sc;
     
-    private int perdio;
+    private boolean perdio;
     
     public Tablero(){
         sc = new Scanner(System.in);
         celdas = new Celda[8][8];
         numMinas = 10;
-        perdio = 6;
-        inicializarCeldas();
+        perdio = false;
     }
     
     public void inicializarCeldas(){
@@ -80,6 +79,8 @@ public class Tablero
     private void seleccionarCelda(int posX, int posY){
         if(celdas[posX][posY].esMina()){
             //ArrayList<Celda> celdasConMinas = new ArrayList<>();
+            perdio = true;
+            System.out.println("Game Over");
             for (int i=0; i<celdas.length; i++){
                 for(int j=0; j<celdas[0].length; j++){
                     if(celdas[i][j].esMina()){
@@ -89,6 +90,7 @@ public class Tablero
                 }
             }
         }else if (celdas[posX][posY].getNumMinasAlrededor() == 0){
+            celdas[posX][posY].setAbierta(true);
             ArrayList<Celda> celdasAlrededor = celdasAlrededor(posX, posY);
             for(Celda celda: celdasAlrededor){
                 if(!celda.getAbierta()){
@@ -137,16 +139,15 @@ public class Tablero
     }
     
     public void jugar(){
-        if(perdio != 0){
+        inicializarCeldas();
+        while(!perdio){
             String cordenadas = sc.nextLine();
             String[] parts = cordenadas.split(",");
             int posX = Integer.parseInt(parts[0]);
             int posY = Integer.parseInt(parts[1]);
             seleccionarCelda(posX, posY);
             imprimirTablero();
-            jugar();
-            perdio--;
-        }    
+        }  
     }
     
     public static void main(String[] args) {
