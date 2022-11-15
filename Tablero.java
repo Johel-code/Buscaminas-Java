@@ -17,7 +17,7 @@ public class Tablero
         perdio = false;
     }
     
-    public void inicializarCeldas(){
+    private void inicializarCeldas(){
         for (int i=0; i<celdas.length; i++){
             for(int j=0; j<celdas[0].length; j++){
                 celdas[i][j] = new Celda(i, j);
@@ -140,13 +140,18 @@ public class Tablero
     
     public void jugar(){
         inicializarCeldas();
+        imprimirTablero();
         while(!perdio){
             String cordenadas = sc.nextLine();
             String[] parts = cordenadas.split(",");
             int posX = Integer.parseInt(parts[0]);
             int posY = Integer.parseInt(parts[1]);
-            seleccionarCelda(posX, posY);
-            imprimirTablero();
+            if(!celdas[posX][posY].getAbierta()){
+                seleccionarCelda(posX, posY);
+                imprimirTablero();
+            }else{
+                System.out.println("Esta celda ya esta abierta");
+            }
         }  
     }
     

@@ -8,6 +8,8 @@ public class Celda
     public Celda(int posX, int posY){
         this.posX = posX;
         this.posY = posY;
+        mina = false;
+        abierta = false;
     }
     
     public int getPosX(){
