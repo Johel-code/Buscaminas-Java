@@ -120,6 +120,15 @@ public class Tablero
         }
     }
     
+    private void imprimirTableroVacio(){
+        for (int i=0; i<celdas.length; i++){
+            for(int j=0; j<celdas[0].length; j++){
+                System.out.print("-");
+            }
+            System.out.println("");
+        }
+    }
+    
     private void imprimirMinas() {
         for (int i=0; i<celdas.length; i++){
             for(int j=0; j<celdas[0].length; j++){
@@ -138,9 +147,10 @@ public class Tablero
         }
     }
     
-    public void jugar(){
+    private void jugar(){
         inicializarCeldas();
         imprimirTablero();
+        System.out.println("Ingrese un coordenada para comenzar a jugar");
         while(!perdio){
             String cordenadas = sc.nextLine();
             String[] parts = cordenadas.split(",");
@@ -157,10 +167,6 @@ public class Tablero
     
     public static void main(String[] args) {
         Tablero tablero = new Tablero();
-        tablero.imprimirMinas();
-        System.out.println("-----");
-        tablero.imprimirPistas();
-        System.out.println("-----");
-        tablero.imprimirTablero();
+        tablero.jugar();
     }
 }
