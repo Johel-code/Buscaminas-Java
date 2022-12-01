@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=TableroNivelBasico
+comment1.params=
+comment1.target=TableroNivelBasico()
+comment10.params=
+comment10.target=void\ jugar()
+comment11.params=args
+comment11.target=void\ main(java.lang.String[])
+comment2.params=
+comment2.target=void\ crearCeldasDelTablero()
+comment3.params=
+comment3.target=void\ generarMinas()
+comment4.params=
+comment4.target=void\ actualizarNumMinasAlrededor()
+comment5.params=
+comment5.target=java.util.ArrayList\ celdas_minas()
+comment6.params=celdasAlrededor
+comment6.target=void\ incrementarValorDeNumMinasAlrededor(java.util.ArrayList)
+comment7.params=posX\ posY
+comment7.target=java.util.ArrayList\ celdasAlrededor(int,\ int)
+comment8.params=posX\ posY
+comment8.target=void\ seleccionarCelda(int,\ int)
+comment9.params=
+comment9.target=void\ imprimirTablero()
+numComments=12
