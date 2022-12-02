@@ -1,23 +1,22 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Tablero
 {
     private Celda[][] celdas;
-    
     private int numMinas;
-    private Scanner sc;
-    
-    private boolean perdio;
-    
-    public Tablero(){
-        sc = new Scanner(System.in);
-        celdas = new Celda[8][8];
-        numMinas = 10;
-        perdio = false;
+
+    public Tablero(int size, int numMinas){
+        celdas = new Celda[size][size];
+        this.numMinas = numMinas;
     }
-    
-    private void inicializarCeldas(){
+
+    public boolean celdaAbierta(int x, int y){
+        if(celdas[x][y].getAbierta()){
+            return true;
+        }
+        return false;
+    }
+    public void crearCeldasDelTablero(){
         for (int i=0; i<celdas.length; i++){
             for(int j=0; j<celdas[0].length; j++){
                 celdas[i][j] = new Celda(i, j);
@@ -31,7 +30,7 @@ public class Tablero
         while (minasGeneradas != numMinas){
             int posTmpFila = (int) (Math.random()*8);
             int posTmpColumna = (int) (Math.random()*8);
-            if(!celdas[posTmpFila][posTmpColumna].esMina()){
+            if(!celdaEsMina(posTmpFila, posTmpColumna)){
                 celdas[posTmpFila][posTmpColumna].setMina(true);
                 minasGeneradas++;
             }
@@ -40,19 +39,33 @@ public class Tablero
     }
     
     private void actualizarNumMinasAlrededor(){
-        for (int i=0; i<celdas.length; i++){
-            for(int j=0; j<celdas[0].length; j++){
-                if(celdas[i][j].esMina()){
-                    ArrayList<Celda> celdasAlrededor = celdasAlrededor(i, j);
-                    //celdasAlrededor.forEach((c)->c.incrementarNumMinasAlrededor());
-                    for(Celda celdaAct : celdasAlrededor){
-                        celdaAct.incrementarNumMinasAlrededor();
-                    }
-                } 
-            }
+        ArrayList<Celda> celdasConMinas = celdas_minas();
+        for(Celda celdaAct : celdasConMinas){
+            int i = celdaAct.getPosX();
+            int j = celdaAct.getPosY();
+            ArrayList<Celda> celdasAlrededor = celdasAlrededor(i, j);
+            incrementarValorDeNumMinasAlrededor(celdasAlrededor);
         }
     }
-    
+
+    private ArrayList<Celda> celdas_minas(){
+        ArrayList<Celda> listaCeldasMinas = new ArrayList<>();
+        for (int i=0; i<celdas.length; i++){
+            for(int j=0; j<celdas[0].length; j++){
+                if(celdaEsMina(i,j)){
+                    listaCeldasMinas.add(celdas[i][j]);
+                }
+            }
+        }
+        return listaCeldasMinas;
+    }
+
+    private void incrementarValorDeNumMinasAlrededor(ArrayList<Celda> celdasAlrededor) {
+        for(Celda celdaAct : celdasAlrededor){
+            celdaAct.incrementarNumMinasAlrededor();
+        }
+    }
+
     private ArrayList<Celda> celdasAlrededor(int posX, int posY){
         ArrayList<Celda> listaCeldas = new ArrayList<>();
         for(int i=0; i<8; i++){
@@ -75,39 +88,25 @@ public class Tablero
         }
         return listaCeldas;
     }
-    
-    private void seleccionarCelda(int posX, int posY){
+
+    public boolean celdaEsMina(int posX, int posY){
         if(celdas[posX][posY].esMina()){
-            //ArrayList<Celda> celdasConMinas = new ArrayList<>();
-            perdio = true;
-            System.out.println("Game Over");
-            for (int i=0; i<celdas.length; i++){
-                for(int j=0; j<celdas[0].length; j++){
-                    if(celdas[i][j].esMina()){
-                        //celdasConMinas.add(celdas[i][j]);
-                        celdas[i][j].setAbierta(true);
-                    }   
-                }
-            }
-        }else if (celdas[posX][posY].getNumMinasAlrededor() == 0){
-            celdas[posX][posY].setAbierta(true);
-            ArrayList<Celda> celdasAlrededor = celdasAlrededor(posX, posY);
-            for(Celda celda: celdasAlrededor){
-                if(!celda.getAbierta()){
-                    celda.setAbierta(true);
-                    seleccionarCelda(celda.getPosX(), celda.getPosY());
-                }
-            }
-        }else{
-            celdas[posX][posY].setAbierta(true);
+            return true;
+        }
+        return false;
+    }
+    public void abrirTodasLasMinas(){
+        ArrayList<Celda> celdasConMinas = celdas_minas();
+        for(Celda celdaAct : celdasConMinas){
+            celdaAct.setAbierta(true);
         }
     }
-    
-    private void imprimirTablero() {
+
+    public void imprimirTablero() {
         for (int i=0; i<celdas.length; i++){
             for(int j=0; j<celdas[0].length; j++){
-                if(celdas[i][j].getAbierta()){
-                    if(celdas[i][j].esMina()){
+                if(celdaAbierta(i,j)){
+                    if(celdaEsMina(i,j)){
                         System.out.print("*");
                     }else{
                         System.out.print(celdas[i][j].getNumMinasAlrededor());
@@ -119,54 +118,19 @@ public class Tablero
             System.out.println("");
         }
     }
-    
-    private void imprimirTableroVacio(){
-        for (int i=0; i<celdas.length; i++){
-            for(int j=0; j<celdas[0].length; j++){
-                System.out.print("-");
+
+    public void celdaEsCampo(int posX, int posY) {
+        if (celdas[posX][posY].getNumMinasAlrededor() == 0) {
+            celdas[posX][posY].setAbierta(true);
+            ArrayList<Celda> celdasAlrededor = celdasAlrededor(posX, posY);
+            for (Celda celda : celdasAlrededor) {
+                if (!celda.getAbierta()) {
+                    celda.setAbierta(true);
+                    celdaEsCampo(celda.getPosX(), celda.getPosY());
+                }
             }
-            System.out.println("");
+        }else{
+            celdas[posX][posY].setAbierta(true);
         }
-    }
-    
-    private void imprimirMinas() {
-        for (int i=0; i<celdas.length; i++){
-            for(int j=0; j<celdas[0].length; j++){
-                System.out.print(celdas[i][j].esMina() ?"*":"0");
-            }
-            System.out.println("");
-        }
-    }
-    
-    private void imprimirPistas() {
-        for (int i=0; i<celdas.length; i++){
-            for(int j=0; j<celdas[0].length; j++){
-                System.out.print(celdas[i][j].getNumMinasAlrededor());
-            }
-            System.out.println("");
-        }
-    }
-    
-    private void jugar(){
-        inicializarCeldas();
-        imprimirTablero();
-        System.out.println("Ingrese un coordenada para comenzar a jugar");
-        while(!perdio){
-            String cordenadas = sc.nextLine();
-            String[] parts = cordenadas.split(",");
-            int posX = Integer.parseInt(parts[0]);
-            int posY = Integer.parseInt(parts[1]);
-            if(!celdas[posX][posY].getAbierta()){
-                seleccionarCelda(posX, posY);
-                imprimirTablero();
-            }else{
-                System.out.println("Esta celda ya esta abierta");
-            }
-        }  
-    }
-    
-    public static void main(String[] args) {
-        Tablero tablero = new Tablero();
-        tablero.jugar();
     }
 }

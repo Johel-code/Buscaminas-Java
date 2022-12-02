@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Celda
+comment1.params=posX\ posY
+comment1.target=Celda(int,\ int)
+comment2.params=
+comment2.target=int\ getPosX()
+comment3.params=
+comment3.target=int\ getPosY()
+comment4.params=
+comment4.target=boolean\ esMina()
+comment5.params=s
+comment5.target=void\ setMina(boolean)
+comment6.params=
+comment6.target=int\ getNumMinasAlrededor()
+comment7.params=
+comment7.target=void\ incrementarNumMinasAlrededor()
+comment8.params=
+comment8.target=boolean\ getAbierta()
+comment9.params=a
+comment9.target=void\ setAbierta(boolean)
+numComments=10
