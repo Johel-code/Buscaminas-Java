@@ -4,11 +4,12 @@ public class JuegoBasico extends Juego
 {
     private Tablero tablero;
     private Scanner sc;
+    private boolean perdio;
 
     public JuegoBasico(){
-        super(new Tablero(8,10));
         tablero = new Tablero(8,10);
         sc = new Scanner(System.in);
+        perdio = false;
     }
     
     public void jugar(){

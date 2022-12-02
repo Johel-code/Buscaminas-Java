@@ -1,10 +1,8 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Tablero
 {
     private Celda[][] celdas;
-    
     private int numMinas;
 
     public Tablero(int size, int numMinas){
