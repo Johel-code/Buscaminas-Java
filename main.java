@@ -4,7 +4,7 @@ public class main
     public static void main(String[] args) {
         //Tablero tableroNivelBasico = new TableroNivelBasico();
         //tableroNivelBasico.jugar();
-        Juego juego = new JuegoBasico();
+        Buscamina juego = new BuscaminaNivelBasico();
         juego.jugar();
     }
 }

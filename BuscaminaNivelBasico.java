@@ -1,12 +1,12 @@
 import java.util.Scanner;
 
-public class JuegoBasico extends Juego
+public class BuscaminaNivelBasico extends Buscamina
 {
     private Tablero tablero;
     private Scanner sc;
     private boolean perdio;
 
-    public JuegoBasico(){
+    public BuscaminaNivelBasico(){
         tablero = new Tablero(8,10);
         sc = new Scanner(System.in);
         perdio = false;

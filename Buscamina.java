@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public abstract class Juego
+public abstract class Buscamina
 {
     protected boolean perdio;
     private Scanner sc;
     
-    public Juego(){
+    public Buscamina(){
         perdio = false;
         sc = new Scanner(System.in);
     }
